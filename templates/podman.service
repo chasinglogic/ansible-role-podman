@@ -1,0 +1,39 @@
+[Unit]
+Description={{ service.description | default("A podman service") }}
+{% if service.target is defined %}
+After={{ service.after | join(',') }}
+{% endif %}
+
+[Service]
+Type=simple
+TimeoutStartSec={{ service.timeout_start_sec | default("5m") }}
+
+ExecStartPre=-/usr/bin/podman rm "{{ __podman_service_name }}"
+ExecStart=/usr/bin/podman run \
+                          --name {{ __podman_service_name }} \
+                          {% if service.hostname %}
+                          --hostname {{ service.hostname }} \
+                          {% endif %}
+                          {% for publish in service.publish %}
+                          --publish {{ publish }} \
+                          {% endfor %}
+                          {% for volume in service.volumes %}
+                          -v {{ volume }} \
+                          {% endfor %}
+                          {% for env in service.env_vars %}
+                          -e {{ env }} \
+                          {% endfor %}
+                          {{image_name}}:{{ image_version | default('latest') }}
+
+ExecReload=-/usr/bin/podman stop "{{ __podman_service_name }}"
+ExecReload=-/usr/bin/podman rm "{{ __podman_service_name }}"
+ExecStop=-/usr/bin/podman stop "{{ __podman_service_name }}"
+Restart={{ service.restart | default('always') }}
+RestartSec={{ service.restart_sec | default(30) }}
+
+{% if service.install is defined %}
+[Install]
+{% if service.install.wanted_by is defined %}
+WantedBy={{ service.install.wanted_by | join(',') }}
+{% endif %}
+{% endif %}
