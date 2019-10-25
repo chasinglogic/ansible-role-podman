@@ -8,3 +8,7 @@
 - include_tasks: ubuntu.yml
   when: ansible_distribution == "Ubuntu"
 
+- include_tasks: podman_service.yml
+  loop: "{{ podman_services }}"
+  loop_control:
+    loop_var: service
