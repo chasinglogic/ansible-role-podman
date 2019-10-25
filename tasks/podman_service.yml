@@ -1,24 +1,25 @@
 ---
 
+- name: Generate service name
+  set_fact:
+    __podman_service_name: "{{ service.service_name | default(service.image_name + '-podman') }}"
+
 - name: "Download {{ service.image_name }} image"
   podman_image:
     name: "{{ service.image_name }}:{{ service.image_version | default('latest') }}"
   register: podman_image_download
-
-- name: Generate service name
-  set_fact:
-    __podman_service_name: "{{ service.service_name | default(service.image_name + '-podman') }}"
+  notify: "restart podman service"
 
 - name: "Install  service"
   template:
     src: "podman.service"
     dest: '/etc/systemd/system/{{ __podman_service_name }}.service'
   register: podman_service_file
+  notify: "restart podman service"
 
-- name: "Restart {{ service.image_name }}"
+- name: "Ensure service is started and enabled"
   systemd:
-    name: "{{ service.image_name }}-podman"
-    state: restarted
+    name: "{{ __podman_service_name }}"
+    state: started
     enabled: true
     daemon_reload: true
-  when: podman_image_download.changed or podman_service_file.changed
