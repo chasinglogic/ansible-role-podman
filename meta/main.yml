@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  author: MongoDB
+  description: Manage services and containers with podman
+  license: Apache
+  min_ansible_version: 2.8
+  platforms:
+    - name: debian
+      versions:
+        - buster
+  galaxy_tags:
+    - podman
