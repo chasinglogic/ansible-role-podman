@@ -1,1 +1,10 @@
 ---
+
+### Installation
+
+- include_tasks: fedora.yml
+  when: ansible_distribution == "Fedora"
+
+- include_tasks: ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+

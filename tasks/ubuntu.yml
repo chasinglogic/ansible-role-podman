@@ -1,0 +1,14 @@
+---
+
+- name: Ubuntu | Add podman repository
+  become: true
+  become_user: root
+  apt_repository:
+    repo: "{{ podman_apt_repo }}"
+
+- name: Ubuntu | Install podman suite of tools
+  become: true
+  become_user: root
+  apt:
+    name: "{{ podman_tools }}"
+    update_cache: yes
