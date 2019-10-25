@@ -1,1 +1,10 @@
 ---
+podman_apt_repo: ppa:projectatomic/ppa
+# Users may not want to install all the podman tools everywhere so this variable
+# allows you to scope down what tools to install. For instance I do not install
+# buildah or skopeo on my servers because I do not build images on them.
+podman_tools:
+    - podman
+    - buildah
+    - skopeo
+podman_services: []
