@@ -26,14 +26,7 @@ jobs:
       - run: npx semantic-release
 version: 2
 workflows:
-  test-release:
+  version: 2
+  test:
     jobs:
       - test
-      - release:
-          context: mongodb
-          filters:
-            branches:
-              only: master
-          requires:
-            - test
-  version: 2
