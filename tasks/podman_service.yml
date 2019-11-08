@@ -4,20 +4,27 @@
   set_fact:
     __podman_service_name: "{{ service.service_name | default(service.image_name + '-podman') }}"
 
-- name: "Download {{ service.image_name }} image"
+- name: "Download {{ service.image_name }}:{{ service.image_version | default('latest') }} image"
+  become: true
+  become_user: root
   podman_image:
-    name: "{{ service.image_name }}:{{ service.image_version | default('latest') }}"
-  register: podman_image_download
+    name: "{{ service.image_name }}"
+    tag: "{{ service.image_version | default('latest') }}"
+    pull: true
+    state: present
   notify: "restart podman service"
 
-- name: "Install  service"
+- name: "Install {{ __podman_service_name }} service"
+  become: true
+  become_user: root
   template:
     src: "podman.service"
     dest: '/etc/systemd/system/{{ __podman_service_name }}.service'
-  register: podman_service_file
   notify: "restart podman service"
 
 - name: "Ensure service is started and enabled"
+  become: true
+  become_user: root
   systemd:
     name: "{{ __podman_service_name }}"
     state: started
