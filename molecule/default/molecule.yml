@@ -6,8 +6,22 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: instance
-    image: debian:9
+  - name: "Fedora30"
+    image: fedora:30
+    privileged: True
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+      - /sys/fs/cgroup
+  - name: "Ubuntu1804"
+    image: ubuntu:xenial
+    privileged: True
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+      - /sys/fs/cgroup
 provisioner:
   name: ansible
   lint:
