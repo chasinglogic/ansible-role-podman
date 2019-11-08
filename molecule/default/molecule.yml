@@ -24,9 +24,23 @@ platforms:
       - /sys/fs/cgroup
 provisioner:
   name: ansible
+  inventory:
+    group_vars:
+      all:
+        podman_services:
+          - image_name: nginx
+            image_version: mainline
+            description: Web host
+            publish:
+              - '80:80'
+            volumes:
+              - '/tmp:/usr/share/nginx/html:ro'
+    host_vars:
+      Fedora30:
+        ansible_python_interpreter: python3
   lint:
     name: ansible-lint
 verifier:
-  name: inspec
+  name: testinfra
   lint:
-    name: rubocop
+    name: flake8
