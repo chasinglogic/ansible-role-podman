@@ -21,3 +21,10 @@
   apt:
     name: "{{ podman_tools }}"
     update_cache: yes
+
+- name: Ubuntu | Upload default registries configuration
+  become: true
+  become_user: root
+  template:
+    src: registries.conf
+    dest: /etc/containers/registries.conf
