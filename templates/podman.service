@@ -11,19 +11,25 @@ TimeoutStartSec={{ service.timeout_start_sec | default("5m") }}
 ExecStartPre=-/usr/bin/podman rm "{{ __podman_service_name }}"
 ExecStart=/usr/bin/podman run \
                           --name {{ __podman_service_name }} \
-                          {% if service.hostname %}
+                          {% if service.hostname is defined %}
                           --hostname {{ service.hostname }} \
                           {% endif %}
+                          {% if service.publish is defined %}
                           {% for publish in service.publish %}
                           --publish {{ publish }} \
                           {% endfor %}
+                          {% endif %}
+                          {% if service.volumes is defined %}
                           {% for volume in service.volumes %}
                           -v {{ volume }} \
                           {% endfor %}
+                          {% endif %}
+                          {% if service.env_vars is defined %}
                           {% for env in service.env_vars %}
                           -e {{ env }} \
                           {% endfor %}
-                          {{image_name}}:{{ image_version | default('latest') }}
+                          {% endif %}
+                          {{ service.image_name }}:{{ service.image_version | default('latest') }}
 
 ExecReload=-/usr/bin/podman stop "{{ __podman_service_name }}"
 ExecReload=-/usr/bin/podman rm "{{ __podman_service_name }}"
