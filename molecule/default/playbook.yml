@@ -27,5 +27,14 @@
           static_dir="/libpod/static"
           volume_path="/libpod/volumes"
         dest: /etc/containers/libpod.conf
+    - name: Install tools required for testinfra
+      package:
+        name:
+          - curl
+          - net-tools
+    - name: Create index.html for testinfra tests
+      copy:
+        dest: /tmp/index.html
+        content: Hello World
   roles:
     - role: ansible-role-podman
