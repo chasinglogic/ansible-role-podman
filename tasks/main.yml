@@ -2,6 +2,19 @@
 
 ### Installation
 
+- name: Ensure /etc/containers exists
+  become: true
+  become_user: root
+  file:
+    state: directory
+    path: /etc/containers
+
+# Podman uses this, on at least Ubuntu, to do port publishing.
+- name: Ensure iptables is installed
+  package:
+    name: iptables
+
+
 - include_tasks: fedora.yml
   when: ansible_distribution == "Fedora"
 
