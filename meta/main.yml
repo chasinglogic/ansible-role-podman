@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: podman
   author: Mathew Robinson
   description: Manage services and containers with podman
   license: MIT

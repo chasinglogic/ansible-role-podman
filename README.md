@@ -100,4 +100,4 @@ make converge verify
 License
 -------
 
-[Apache License](LICENSE)
+[MIT](LICENSE)
