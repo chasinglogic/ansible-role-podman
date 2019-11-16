@@ -29,7 +29,7 @@ ExecStart=/usr/bin/podman run \
                           -e {{ env }} \
                           {% endfor %}
                           {% endif %}
-                          {{ service.image_name }}:{{ service.image_version | default('latest') }}
+                          {{ service.image_name }}:{{ service.image_tag | default('latest') }}
 
 ExecReload=-/usr/bin/podman stop "{{ __podman_service_name }}"
 ExecReload=-/usr/bin/podman rm "{{ __podman_service_name }}"

@@ -4,12 +4,12 @@
   set_fact:
     __podman_service_name: "{{ service.service_name | default(service.image_name + '-podman') }}"
 
-- name: "Download {{ service.image_name }}:{{ service.image_version | default('latest') }} image"
+- name: "Download {{ service.image_name }}:{{ service.image_tag | default('latest') }} image"
   become: true
   become_user: root
   podman_image:
     name: "{{ service.image_name }}"
-    tag: "{{ service.image_version | default('latest') }}"
+    tag: "{{ service.image_tag | default('latest') }}"
     pull: true
     state: present
   notify: "restart podman service"

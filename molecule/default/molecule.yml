@@ -29,7 +29,7 @@ provisioner:
       all:
         podman_services:
           - image_name: nginx
-            image_version: mainline
+            image_tag: mainline
             description: Web host
             publish:
               - '80:80'
