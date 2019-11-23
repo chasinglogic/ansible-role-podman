@@ -19,7 +19,7 @@ Example Playbook
 ```yaml
 - hosts: all
   roles:
-    - role: ansible-role-podman
+    - role: podman
 ```
 
 
