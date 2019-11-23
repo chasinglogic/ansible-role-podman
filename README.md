@@ -88,6 +88,11 @@ podman_services:
     install:
       wanted_by:
         - multi-user.target
+    # Optional: define the user and group for the service
+    # file. Default is omission which is equivalent to root on most
+    # systems.
+    user: root
+    group: root
 ```
 
 Development

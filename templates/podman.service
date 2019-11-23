@@ -7,6 +7,12 @@ After={{ service.after | join(',') }}
 [Service]
 Type=simple
 TimeoutStartSec={{ service.timeout_start_sec | default("5m") }}
+{% if service.user is defined %}
+User={{ service.user }}
+{% endif %}
+{% if service.group is defined %}
+Group={{ service.group }}
+{% endif %}
 
 ExecStartPre=-/usr/bin/podman rm "{{ __podman_service_name }}"
 ExecStart=/usr/bin/podman run \
