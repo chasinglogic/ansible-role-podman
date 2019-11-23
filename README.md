@@ -66,6 +66,10 @@ podman_services:
 
     ## SystemD Variables
     #
+    # Optional: Define the restart policy for this service. Default is always
+    restart: always
+    # Optional: Define the time to wait between restarts of this service in seconds. Default is 30
+    restart_sec: 30
     # Optional: Define the actual name used for the SystemD
     # service. {{ Defaults to image_name + '-podman' }}
     service_name: nginx
