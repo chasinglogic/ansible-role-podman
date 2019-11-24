@@ -11,9 +11,10 @@
 
 # Podman uses this, on at least Ubuntu, to do port publishing.
 - name: Ensure iptables is installed
+  become: true
+  become_user: root
   package:
     name: iptables
-
 
 - include_tasks: fedora.yml
   when: ansible_distribution == "Fedora"
