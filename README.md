@@ -1,5 +1,4 @@
-Ansible role for podman
-==================================
+# Ansible role for podman
 
 Manage services and containers with podman
 
@@ -51,6 +50,10 @@ podman_services:
     # as well (ex. '127.0.0.1:8080:80'). Defaults to none.
     publish:
       - '80:80'
+    # Optional: String name of the network to be passed as the --network flag.
+    # If the network does not exist it will be created. This can be used to allow
+    # multiple services to network with each other. See Networking for caveats
+    network: somenetwork
     # Optional: List of volumes to mount. Takes the same form as the
     # podman CLI host-directory:container-directory and as shown below
     # mount options are allowed.
@@ -94,6 +97,14 @@ podman_services:
     user: root
     group: root
 ```
+
+### Networking
+
+At this time Ansible does not provide a podman networking module analogous to
+`docker_network`. If you are using the network option on your container you'll
+need to ensure the network exists before this role runs. In the future when
+podman networking support is added to Ansible this role will ensure it's
+created.
 
 Development
 -----------
