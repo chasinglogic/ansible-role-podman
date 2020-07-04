@@ -35,7 +35,7 @@ ExecStart=/usr/bin/podman run \
                           {% endif %}
                           {% if service.env_vars is defined %}
                           {% for env in service.env_vars %}
-                          -e {{ env }} \
+                          -e '{{ env }}' \
                           {% endfor %}
                           {% endif %}
                           {{ service.image_name }}:{{ service.image_tag | default('latest') }}
