@@ -1,0 +1,21 @@
+---
+
+- name: Determine list of required pods
+  set_fact:
+    podman_pods: "{{ podman_pods }} + [ '{{ service.pod }}' ]"
+  when: service.pod is defined
+  loop: "{{ podman_services }}"
+  loop_control:
+    loop_var: service
+
+- name: Get list of pods
+  shell: podman pod ps --format {% raw %}'{{.Name}}'{% endraw %}
+  register: podman_pod_ps
+  when: podman_pods | length > 0
+
+- name: Create required pods
+  loop: "{{podman_pods}}"
+  loop_control:
+    loop_var: pod
+  when: pod not in podman_pod_ps.stdout_lines
+  shell: podman pod create --name "{{pod}}"

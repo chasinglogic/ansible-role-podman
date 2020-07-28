@@ -26,6 +26,9 @@
   include_tasks: ubuntu.yml
   when: ansible_distribution == "Ubuntu"
 
+- name: Include tasks to create pods
+  include_tasks: podman_pods.yml
+
 - include_tasks: podman_service.yml
   loop: "{{ podman_services }}"
   loop_control:
