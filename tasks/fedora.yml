@@ -1,7 +1,0 @@
----
-
-- name: RedHat | Install Podman suite of tools
-  become: true
-  become_user: root
-  dnf:
-    name: "{{ podman_tools }}"

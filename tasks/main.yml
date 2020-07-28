@@ -15,14 +15,19 @@
   become_user: root
   package:
     name: iptables
+    state: present
 
-- include_tasks: fedora.yml
-  when: ansible_distribution == "Fedora"
+- name: Include tasks for Red Hat OS family
+  include_tasks: redhat.yml
+  when: (ansible_distribution == 'Fedora' and ansible_distribution_major_version is version('28', '>=')) or
+        (ansible_distribution in ['RedHat', 'CentOS'] and ansible_distribution_major_version is version('7', '>='))
 
-- include_tasks: ubuntu.yml
+- name: Include tasks for Ubuntu
+  include_tasks: ubuntu.yml
   when: ansible_distribution == "Ubuntu"
 
 - include_tasks: podman_service.yml
   loop: "{{ podman_services }}"
   loop_control:
     loop_var: service
+
