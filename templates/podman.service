@@ -23,8 +23,8 @@ ExecStart=/usr/bin/podman run \
                           {% if service.network is defined %}
                           --network {{ service.network }}
                           {% endif %}
-                          {% if service.pod is defined %}
-                          --pod {{ service.pod }} \
+                          {% if service.pod.name is defined %}
+                          --pod {{ service.pod.name }} \
                           {% endif %}
                           {% if service.publish is defined %}
                           {% for publish in service.publish %}

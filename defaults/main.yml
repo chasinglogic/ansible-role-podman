@@ -8,4 +8,3 @@ podman_tools:
     - buildah
     - skopeo
 podman_services: []
-podman_pods: []

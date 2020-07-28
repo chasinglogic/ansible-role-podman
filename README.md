@@ -56,7 +56,10 @@ podman_services:
     network: somenetwork
     # Optional: String name of the pod to be passed to --pod flag.
     # If the pod does not exist it will be created.
-    pod: somepod
+    # If you specify a port map (optional) it will be passed to --publish.
+    pod:
+      name: somepod
+      ports: [80: 80, 443: 443]
     # Optional: List of volumes to mount. Takes the same form as the
     # podman CLI host-directory:container-directory and as shown below
     # mount options are allowed.
