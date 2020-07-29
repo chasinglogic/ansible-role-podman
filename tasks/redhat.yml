@@ -1,0 +1,17 @@
+---
+
+- name: RedHat DNF | Install Podman suite of tools
+  become: true
+  become_user: root
+  dnf:
+    name: "{{ podman_tools }}"
+  when: (ansible_distribution == 'Fedora' and ansible_distribution_major_version is version('28', '>=')) or
+    (ansible_distribution in ['RedHat', 'CentOS'] and ansible_distribution_major_version is version('8', '>='))
+
+- name: RedHat YUM | Install Podman suite of tools
+  become: true
+  become_user: root
+  yum:
+    name: "{{ podman_tools }}"
+  when: (ansible_distribution in ['RedHat', 'CentOS'] and ansible_distribution_major_version is version('7', '=='))
+
