@@ -1,6 +1,8 @@
 ---
 
 - name: "restart podman service"
+  become: true
+  become_user: root
   systemd:
     name: "{{ __podman_service_name }}"
     state: restarted
