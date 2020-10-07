@@ -1,10 +1,16 @@
 ---
 
+- name: Ubuntu | Add an Apt signing key used for podman repo
+  apt_key:
+    url: "{{ podman_apt_pub_key }}"
+    state: present
+
 - name: Ubuntu | Add podman repository
   become: true
   become_user: root
   apt_repository:
     repo: "{{ podman_apt_repo }}"
+    filename: podman
 
 # Conmon requires libglib2.0 to be installed however, the ppa packages do not
 # include it as a dependency. This is an upstream packaging bug and this breaks

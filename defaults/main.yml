@@ -1,5 +1,7 @@
 ---
-podman_apt_repo: ppa:projectatomic/ppa
+podman_apt_repo: "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_{{ ansible_distribution_version }} /"
+podman_apt_pub_key: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_{{ ansible_distribution_version }}/Release.key"
+
 # Users may not want to install all the podman tools everywhere so this variable
 # allows you to scope down what tools to install. For instance I do not install
 # buildah or skopeo on my servers because I do not build images on them.
