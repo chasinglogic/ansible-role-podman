@@ -12,6 +12,10 @@
     repo: "{{ podman_apt_repo }}"
     filename: podman
 
+- name: Ubuntu | Upgrade System before install
+  apt:
+    upgrade: dist
+
 # Conmon requires libglib2.0 to be installed however, the ppa packages do not
 # include it as a dependency. This is an upstream packaging bug and this breaks
 # podman as it cannot load the runtime because it cannot run conmon.
