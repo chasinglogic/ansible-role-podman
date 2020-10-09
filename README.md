@@ -10,6 +10,8 @@ Usage
 By default this role will simply install podman as described in the [podman docs](https://podman.io/getting-started/installation.html) and perform any other required
 setup to make the installation functional on the supported platforms. 
 
+**Important Note:** This means that for Ubuntu / Debian systems it will perform an `apt upgrade` as per the docs after the repository is added. This upgrade will only be run if the repository is added or changed and will not execute on subsequent runs.
+
 Additionally, it can deploy and configure podman containers as SystemD services.
 
 Example Playbook
