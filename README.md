@@ -7,7 +7,7 @@ Manage services and containers with podman
 Usage
 -----
 
-By default this role will simply install podman and perform any other required
+By default this role will simply install podman as described in the [podman docs](https://podman.io/getting-started/installation.html) and perform any other required
 setup to make the installation functional on the supported platforms. 
 
 Additionally, it can deploy and configure podman containers as SystemD services.
