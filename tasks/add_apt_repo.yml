@@ -1,0 +1,35 @@
+---
+# This is so older Ubuntus (before 20.10) can install Podman.
+- name: Ubuntu | Add an Apt signing key used for podman repo
+  apt_key:
+    url: "{{ podman_apt_pub_key }}"
+    state: present
+
+- name: Ubuntu | Add podman repository
+  become: true
+  become_user: root
+  apt_repository:
+    repo: "{{ podman_apt_repo }}"
+    filename: podman
+  register: podman_apt_repo
+
+- name: Ubuntu | Upgrade System before install
+  apt:
+    upgrade: dist
+  when: podman_apt_repo.changed
+
+# Conmon requires libglib2.0 to be installed however, the ppa packages do not
+# include it as a dependency. This is an upstream packaging bug and this breaks
+# podman as it cannot load the runtime because it cannot run conmon.
+- name: Ubuntu | Install libglib2.0
+  become: true
+  become_user: root
+  apt:
+    name: libglib2.0-0
+
+- name: Ubuntu | Upload default registries configuration
+  become: true
+  become_user: root
+  template:
+    src: registries.conf
+    dest: /etc/containers/registries.conf
