@@ -38,6 +38,11 @@ ExecStart=/usr/bin/podman run \
                           -e {{ env }} \
                           {% endfor %}
                           {% endif %}
+                          {% if service.flags is defined %}
+                          {% for flag in service.flags %}
+                          {{ flag }} \
+                          {% endfor %}
+                          {% endif %}
                           {{ service.image_name }}:{{ service.image_tag | default('latest') }}
 
 ExecReload=-/usr/bin/podman stop "{{ __podman_service_name }}"

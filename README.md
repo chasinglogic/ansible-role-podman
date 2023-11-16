@@ -68,6 +68,9 @@ podman_services:
     # container.  Default is none.
     env_vars:
       - SOME_VAR=SOME_VALUE
+    # Optional: A list of arbitrary arguments as strings which will be added before the image name.
+    flags:
+      - '--cap-add=NET_ADMIN'
 
     ## SystemD Variables
     #
