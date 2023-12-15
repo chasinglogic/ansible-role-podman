@@ -33,6 +33,16 @@ ExecStart=/usr/bin/podman run \
                           -v {{ volume }} \
                           {% endfor %}
                           {% endif %}
+                          {% if service.secrets is defined %}
+                          {% for secret in service.secrets %}
+                          --secret name={{ secret.name }}\
+                            {% if secret.type is defined %},type={{ secret.type }}{% endif %}\
+                            {% if secret.target is defined %},target={{ secret.target }}{% endif %}\
+                            {% if secret.uid is defined %},uid={{ secret.uid }}{% endif %}\
+                            {% if secret.gid is defined %},gid={{ secret.gid }}{% endif %}\
+                            {% if secret.mode is defined %},mode={{ secret.mode }}{% endif %} \
+                          {% endif %}
+                          {% if service.env_vars is defined %}
                           {% if service.env_vars is defined %}
                           {% for env in service.env_vars %}
                           -e {{ env }} \
