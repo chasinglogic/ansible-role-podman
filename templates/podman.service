@@ -42,7 +42,7 @@ ExecStart=/usr/bin/podman run \
                             {% if secret.gid is defined %},gid={{ secret.gid }}{% endif %}\
                             {% if secret.mode is defined %},mode={{ secret.mode }}{% endif %} \
                           {% endif %}
-                          {% if service.env_vars is defined %}
+                          {% endfor %}
                           {% if service.env_vars is defined %}
                           {% for env in service.env_vars %}
                           -e {{ env }} \
