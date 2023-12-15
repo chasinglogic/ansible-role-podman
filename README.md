@@ -64,6 +64,17 @@ podman_services:
     # Optional: Define a hostname for podman's hostname flag. Set's
     # the containers hostname, default is none.
     hostname: chasinglogic.io
+    # Optional: A list of secrets to mount. Secrets will not be created
+    # automatically. The only required field if used is name. The other
+    # values have defaults as specified in podman documentation
+    secrets:
+      - name: secret1
+        type: [mount (default)|env]
+        target: [default: /run/secrets/<secretname> OR env var "<secretname>" if type=env]
+        uid: [0]
+        gid: [0]
+        mode: [0]
+      - name: secret2...
     # Optional: A list of environment variables to add to the
     # container.  Default is none.
     env_vars:
