@@ -67,14 +67,14 @@ podman_services:
     # Optional: A list of secrets to mount. Secrets will not be created
     # automatically. The only required field if used is name. The other
     # values have defaults as specified in podman documentation
+    # https://docs.podman.io/en/v4.6.0/markdown/options/secret.html
     secrets:
-      - name: secret1
-        type: [mount (default)|env]
-        target: [default: /run/secrets/<secretname> OR env var "<secretname>" if type=env]
-        uid: [0]
-        gid: [0]
-        mode: [0]
-      - name: secret2...
+      - name: secret
+        type: mount
+        target: /run/secrets/secret
+        uid: 0
+        gid: 0
+        mode: 0
     # Optional: A list of environment variables to add to the
     # container.  Default is none.
     env_vars:
