@@ -56,6 +56,12 @@ podman_services:
     # If the network does not exist it will be created. This can be used to allow
     # multiple services to network with each other. See Networking for caveats
     network: somenetwork
+    # Optional: String name of the pod to be passed to --pod flag.
+    # If the pod does not exist it will be created.
+    # If you specify a port map (optional) it will be passed to --publish.
+    pod:
+      name: somepod
+      ports: [80: 80, 443: 443]
     # Optional: List of volumes to mount. Takes the same form as the
     # podman CLI host-directory:container-directory and as shown below
     # mount options are allowed.

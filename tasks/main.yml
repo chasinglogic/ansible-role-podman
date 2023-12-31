@@ -9,13 +9,15 @@
     state: directory
     path: /etc/containers
 
-# Podman uses this, on at least Ubuntu, to do port publishing.
-- name: Ensure iptables is installed
+# Podman uses iptables, on at least Ubuntu, to do port publishing.
+- name: Ensure required packages are installed
   become: true
   become_user: root
   package:
-    name: iptables
-    state: present
+    name: "{{item}}"
+  loop:
+    - iptables
+    - jq
 
 - name: Include tasks for Red Hat OS family
   include_tasks: redhat.yml
@@ -25,6 +27,9 @@
 - name: Include tasks for Ubuntu
   include_tasks: ubuntu.yml
   when: ansible_distribution == "Ubuntu"
+
+- name: Include tasks to create pods
+  include_tasks: podman_pods.yml
 
 - include_tasks: podman_service.yml
   loop: "{{ podman_services }}"

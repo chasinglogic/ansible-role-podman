@@ -1,0 +1,32 @@
+---
+
+- name: Determine list of required pods and ports
+  when: service.pod is defined
+  loop: "{{ podman_services }}"
+  loop_control:
+    loop_var: service
+  set_fact:
+    podman_pods: "{{ podman_pods | default({}) | combine({service.pod.name: {'name': service.pod.name, 'ports': service.pod.ports | default([]) + (podman_pods[service.pod.name]['ports'] | default([]))}}) }}"
+
+- name: Delete pods with missing port bindings
+  loop: "{{ podman_pods | subelements('ports', skip_missing=yes) }}"
+  loop_control:
+    loop_var: pod
+  when: pod.0.ports is defined
+  shell: |
+    podman pod exists {{pod.0.name}} \
+    && (podman pod inspect {{pod.0.name}} \
+    | jq -e ".Config.infraConfig.infraPortBindings[] | select(.hostPort=={{ lookup('dict', pod.1).key }} and .containerPort=={{ lookup('dict', pod.1).value }})" \
+    || podman pod rm -f {{pod.0.name}}) || true
+  register: podman_pod_inspect
+
+- name: Create required pods
+  loop: "{{podman_pods | dict2items }}"
+  loop_control:
+    loop_var: pod
+  shell: |
+    podman pod exists "{{pod.key}}" \
+    ||  podman pod create --name "{{pod.key}}" \
+    {% if pod.value.ports|default([])|length > 0 %}\
+      --publish {% for port in pod.value.ports %}{{lookup('dict', port).key}}:{{lookup('dict', port).value}}{%- if not loop.last -%},{%- endif -%}{% endfor %}\
+    {% endif %}
